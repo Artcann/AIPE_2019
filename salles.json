@@ -1,0 +1,194 @@
+[
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 1er",
+    "salle" : "N15",
+    "niveau" : [21, 66, 20, 76, 50, 74, 67, 52, 38, 79]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 1er",
+    "salle" : "N16-A",
+    "niveau" : [13, 52, 23, 38, 21, 49, 47, 69, 30, 68]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 1er",
+    "salle" : "N16-B",
+    "niveau" : [57, 48, 31, 16, 19, 44, 81, 13, 45, 15]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 1er",
+    "salle" : "N18",
+    "niveau" : [41, 62, 58, 34, 86, 76, 77, 50, 80, 75]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 2e",
+    "salle" : "N24",
+    "niveau" : [49, 29, 23, 56, 71, 59, 69, 47, 24, 77]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 2e",
+    "salle" : "N26",
+    "niveau" : [20, 26, 20, 38, 30, 80, 40, 50, 25, 32, 20]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 2e",
+    "salle" : "N28",
+    "niveau" : [79, 25, 20, 27, 81, 74, 56, 77, 51, 75]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 3e",
+    "salle" : "N33",
+    "niveau" : [26, 80, 37, 64, 36, 59, 30, 43, 86, 14]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 3e",
+    "salle" : "N34",
+    "niveau" : [71, 53, 76, 69, 51, 24, 44, 47, 56, 79]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 3e",
+    "salle" : "N36",
+    "niveau" : [57, 75, 86, 63, 17, 56, 73, 14, 38, 26]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 3e",
+    "salle" : "N38",
+    "niveau" : [41, 67, 70, 78, 64, 20, 72, 33, 80, 26]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 4e",
+    "salle" : "N43",
+    "niveau" : [44, 21, 48, 80, 42, 31, 22, 85, 26, 53]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 4e",
+    "salle" : "N44",
+    "niveau" : [33, 62, 84, 69, 82, 28, 81, 35, 48, 17]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 4e",
+    "salle" : "N46",
+    "niveau" : [26, 87, 46, 86, 30, 75, 47, 67, 23, 54]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 4e",
+    "salle" : "N48-A",
+    "niveau" : [17, 70, 59, 25, 63, 37, 61, 67, 27, 65]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 4e",
+    "salle" : "N48-B",
+    "niveau" : [78, 84, 64, 46, 25, 18, 38, 29, 51, 85]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 5e",
+    "salle" : "N410",
+    "niveau" : [39, 79, 70, 85, 64, 73, 80, 46, 78, 44]
+  },
+  {
+    "batiment" : "ND des Champs",
+    "etage" : "NDC - 5e",
+    "salle" : "N411",
+    "niveau" : [53, 43, 82, 77, 36, 17, 26, 31, 27, 52]
+  },
+  {
+    "batiment" : "ND de Lorette",
+    "etage" : "NDL - 1er",
+    "salle" : "L108",
+    "niveau" : [80, 45, 50, 12, 81, 85, 29, 28, 19, 56]
+  },
+  {
+    "batiment" : "ND de Lorette",
+    "etage" : "NDL - 1er",
+    "salle" : "L114",
+    "niveau" : [49, 65, 18, 53, 51, 38, 40, 73, 16, 82]
+  },
+  {
+    "batiment" : "ND de Lorette",
+    "etage" : "NDL - 1er",
+    "salle" : "L115",
+    "niveau" : [78, 82, 64, 46, 35, 72, 67, 51, 22, 43]
+  },
+  {
+    "batiment" : "ND de Lorette",
+    "etage" : "NDL - 1er",
+    "salle" : "L122",
+    "niveau" : [76, 57, 80, 52, 83, 44, 79, 85, 81, 60]
+  },
+  {
+    "batiment" : "ND de Lorette",
+    "etage" : "NDL - 2e",
+    "salle" : "L206",
+    "niveau" : [80, 41, 82, 18, 31, 64, 70, 17, 34, 57]
+  },
+  {
+    "batiment" : "ND de Lorette",
+    "etage" : "NDL - 2e",
+    "salle" : "L207",
+    "niveau" : [82, 24, 86, 56, 69, 53, 14, 85, 52, 39]
+  },
+  {
+    "batiment" : "ND de Lorette",
+    "etage" : "NDL - 2e",
+    "salle" : "L212",
+    "niveau" : [33, 51, 83, 85, 38, 22, 52, 69, 67, 12]
+  },
+  {
+    "batiment" : "ND de Lorette",
+    "etage" : "NDL - 2e",
+    "salle" : "L213",
+    "niveau" : [66, 47, 75, 61, 82, 16, 52, 24, 38, 33]
+  },
+  {
+    "batiment" : "ND de Lorette",
+    "etage" : "NDL - 2e",
+    "salle" : "L220",
+    "niveau" : [84, 14, 26, 23, 48, 32, 35, 71, 25, 28]
+  },
+  {
+    "batiment" : "ND de Lorette",
+    "etage" : "NDL - 3e",
+    "salle" : "L305",
+    "niveau" : [27, 31, 87, 45, 15, 20, 63, 67, 34, 79]
+  },
+  {
+    "batiment" : "ND de Lorette",
+    "etage" : "NDL - 3e",
+    "salle" : "L306",
+    "niveau" : [64, 35, 27, 80, 17, 23, 63, 31, 36, 70]
+  },
+  {
+    "batiment" : "ND de Lorette",
+    "etage" : "NDL - 3e",
+    "salle" : "L311",
+    "niveau" : [51, 14, 87, 43, 81, 12, 50, 61, 27, 72]
+  },
+  {
+    "batiment" : "ND de Lorette",
+    "etage" : "NDL - 3e",
+    "salle" : "L312",
+    "niveau" : [80, 25, 26, 85, 55, 15, 23, 29, 56, 46]
+  },
+  {
+    "batiment" : "ND de Lorette",
+    "etage" : "NDL - 3e",
+    "salle" : "L313",
+    "niveau" : [50, 41, 67, 20, 54, 85, 66, 17, 14, 70]
+  }
+]
