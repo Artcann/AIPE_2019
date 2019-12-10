@@ -1,5 +1,4 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
-import http.server
 from os import curdir, sep
 from model.Carte import *
 from model.Salle import *
@@ -15,77 +14,80 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
-mycursor.execute("SELECT * FROM InfoCartes")
-values1 = mycursor.fetchall()
+def updateJSON():
 
 
-listeCarte = []
-json_data = []
+    mycursor.execute("SELECT * FROM InfoCartes")
+    values1 = mycursor.fetchall()
 
 
+    listeCarte = []
+    json_data = []
 
-for info in values1:
-    if len(listeCarte) == 0:
-        listeCarte.append(Carte(info[0]))
-    else :
+    for info in values1:
+        if len(listeCarte) == 0:
+            listeCarte.append(Carte(info[0]))
+        else :
+            for carte in listeCarte:
+                if Carte(info[0]) != carte.getID():
+                    listeCarte.append(Carte(info[0]))
+
+    mycursor.execute("SELECT * FROM CartesSallesRelation")
+    values2 = mycursor.fetchall()
+
+    for info in values2:
         for carte in listeCarte:
-            if Carte(info[0]) != carte.getID():
-                listeCarte.append(Carte(info[0]))
+            if info[0] == carte.getID():
+                carte.ajouterSalle(Salle(carte, info[1]))
 
-mycursor.execute("SELECT * FROM CartesSallesRelation")
-values2 = mycursor.fetchall()
-
-for info in values2:
     for carte in listeCarte:
-        if info[0] == carte.getID():
-            carte.ajouterSalle(Salle(carte, info[1]))
+        for localisation, salle in carte.getDictSalle().items():
+            mycursor.execute("SELECT niveau_sonore FROM Cartes where micro=\"{0}\" order by id desc limit 10".format(localisation))
+            dataSalle = mycursor.fetchall()
+            salle.updateNiveauSonore(dataSalle)
 
-for carte in listeCarte:
-    for localisation, salle in carte.getDictSalle().items():
-        mycursor.execute("SELECT niveau_sonore FROM Cartes where micro=\"{0}\" limit 10".format(localisation))
-        dataSalle = mycursor.fetchall()
-        salle.updateNiveauSonore(dataSalle)
+    for carte in listeCarte:
+        for salle, valeur in carte.getDictSalle().items():
+            test = valeur.getNiveauSonore()
+            dict = {}
+            if salle[0] == "N":
+                dict["batiment"] = "ND des Champs"
+            if salle[0] == "L":
+                dict["batiment"] = "ND de Lorette"
+            if salle[0] == "N":
+                if salle[1] == "1":
+                    dict["etage"] = "NDC - 1er"
+                elif salle[1] == "2":
+                    dict["etage"] = "NDC - 2e"
+                elif salle[1] == "3":
+                    dict["etage"] = "NDC - 3e"
+                elif salle[2] == "1":
+                    dict["etage"] = "NDC - 5e"
+                else:
+                    dict["etage"] = "NDC - 4e"
+            elif salle[0] == "L":
+                if salle[1] == "1":
+                    dict["etage"] = "NDL - 1er"
+                elif salle[1] == "2":
+                    dict["etage"] = "NDL - 2e"
+                elif salle[1] == "3":
+                    dict["etage"] = "NDL - 3e"
+                elif salle[1] == "4":
+                    dict["etage"] = "NDL - 4e"
+            dict["salle"] = salle
+            dict["niveau"] = []
+            for item in test:
+                dict["niveau"].append(item[0])
+            json_data.append(dict)
+    json_file = json.dumps(json_data)
+    return json_file
 
-for carte in listeCarte:
-    for salle, valeur in carte.getDictSalle().items():
-        test = valeur.getNiveauSonore()
-        dict = {}
-        if salle[0] == "N":
-            dict["batiment"] = "ND des Champs"
-        if salle[0] == "L":
-            dict["batiment"] = "ND de Lorette"
-        if salle[0] == "N":
-            if salle[1] == "1":
-                dict["etage"] = "NDC - 1er"
-            elif salle[1] == "2":
-                dict["etage"] = "NDC - 2e"
-            elif salle[1] == "3":
-                dict["etage"] = "NDC - 3e"
-            elif salle[2] == "1":
-                dict["etage"] = "NDC - 5e"
-            else:
-                dict["etage"] = "NDC - 4e"
-        elif salle[0] == "L":
-            if salle[1] == "1":
-                dict["etage"] = "NDL - 1er"
-            elif salle[1] == "2":
-                dict["etage"] = "NDL - 2e"
-            elif salle[1] == "3":
-                dict["etage"] = "NDL - 3e"
-            elif salle[1] == "4":
-                dict["etage"] = "NDL - 4e"
-        dict["salle"] = salle
-        dict["niveau"] = []
-        for item in test:
-            dict["niveau"].append(item[0])
-        json_data.append(dict)
-json_file = json.dumps(json_data)
-print(json_file)
+
+json_file = updateJSON()
 
 hostname = "172.16.237.233"
 PORT = 9889
 server_adress = (hostname, PORT)
-
 
 
 class MyHandler(BaseHTTPRequestHandler):
@@ -108,6 +110,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 sendReply = True
             if self.path.endswith(".json"):
                 mimetype = "application/json"
+                json_file = updateJSON()
                 sendJson = True
             if self.path.endswith(".map"):
                 mimetype = "application/json"
