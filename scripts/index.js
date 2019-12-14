@@ -7,15 +7,83 @@ $(document).ready(function () {
     /*---------- DATE ACTUELLE ----------*/
 
     moment.locale("fr");
-    $("#intervalDate").text(
+    $("#intervalDate").html(
         moment().format("LL") +
-        " : de " +
+        " : de <span>" +
         moment().subtract(2.5, "hours").format("LT") +
-        " à " +
-        moment().format("LT")
+        "</span> à <span>" +
+        moment().format("LT") +
+        "</span>"
     );
 
 });
+
+/*---------- Sidebar mouvement ----------*/
+
+// Taille de sidebar au chargement et pas
+// à chaque appel de la fonction
+
+var sizeSidebar = sidebar.offsetWidth;
+
+function sidebarAnimate(pop) {
+
+    // Init
+    var sidebar = document.querySelector("#sidebar"),
+        popWrap = pop.querySelector(".pop-wrap"),
+        allPop = document.querySelectorAll(".pop"),
+        section = document.querySelector("#section");
+
+    // Element cible déjà sélectionné
+    if (pop.classList.contains("selected")) {
+        // Déselectionner
+        pop.classList.remove("selected");
+        // Remettre la sidebar
+        sidebar.style.width = sizeSidebar + "px";
+        section.style.transform = "translateX(0)";
+        popWrap.style.backgroundColor = "rgba(255, 255, 255, 0)";
+        pop.querySelector("svg").style.fill = "#fff";
+        allPop.forEach(function(thisPop) {
+            thisPop.querySelector(".pop-wrap").style.borderRadius = "100%";
+        });
+
+    // Element cible non sélectionné
+    } else {
+        // Anlyser chaque pop
+        allPop.forEach(function(thisPop) {
+            // Si un autre était sélectionné
+            if (thisPop.classList.contains("selected")) {
+                // Déselectionner
+                thisPop.classList.remove("selected");
+                // Sélectionner le nouveau
+                pop.classList.add("selected");
+                // Transparent thisPop wrap
+                console.log(thisPop !== pop);
+                if (thisPop !== pop) {
+                    thisPop.querySelector(".pop-wrap").style.backgroundColor = "rgba(255, 255, 255, 0)";
+                    thisPop.querySelector("svg").style.fill = "#fff";
+                } else {
+                    thisPop.querySelector(".pop-wrap").style.backgroundColor = "#fff";
+                    thisPop.querySelector("svg").style.fill = "#FFD166";
+                }
+                // Blanc pop wrap
+                //popWrap.style.backgroundColor = "rgba(#fff, 1)";
+            // Si aucun n'était sélectionné
+            } else {
+                // Sélectionner la cible
+                pop.classList.add("selected");
+                // Blanc pop wrap
+                popWrap.style.backgroundColor = "#fff";
+                pop.querySelector("svg").style.fill = "#FFD166";
+                allPop.forEach(function(thisPop) {
+                    thisPop.querySelector(".pop-wrap").style.borderRadius = "2em";
+                });
+                // Agrandir sidebar
+                sidebar.style.width = sizeSidebar*5 + "px";
+                section.style.transform = "translateX(" + sizeSidebar*4 + "px)";
+            }
+        });
+    }
+}
 
 /*---------- Graphique ----------*/
 
@@ -42,6 +110,14 @@ var options = {
         animation: {
             easing: "easeInOutQuad",
             duration: 1500
+        },
+        title: {
+            display: true,
+            text: 'Choisissez une salle',
+            fontSize: 20,
+            fontFamily: '"Rubik", sans-serif',
+            fontColor: "#fff",
+            fontStyle: "bold",
         },
         scales: {
             xAxes: [
@@ -99,9 +175,10 @@ var options = {
                 pointHoverRadius: 8,
                 pointBorderWidth: 3,
                 pointHoverBorderWidth: 3,
-                pointBackgroundColor: "#55E4D4",
-                pointBorderColor: "#fff",
-                pointHoverBorderColor: "#293B5A",
+                pointBackgroundColor: "#293B5A",
+                pointHoverBackgroundColor: "#55E4D4",
+                pointBorderColor: "#55E4D4",
+                pointHoverBorderColor: "#55E4D4",
                 data: niveauSon
             }
         ]
@@ -159,7 +236,7 @@ request.onload = function() {
     }
 };
 
-window.onload = function() {request.send()};
+request.send();
 
 
 
@@ -167,18 +244,20 @@ window.onload = function() {request.send()};
 function initialize() {
 
     // Récupérer les filtrages
-    var batimentSelect = document.forms.tripleplay.List1,
-        etageSelect = document.forms.tripleplay.List2,
-        salleSelect = document.forms.tripleplay.List3,
+    var batimentSelect = document.querySelector("#List1"),
+        etageSelect = document.querySelector("#List2"),
+        salleSelect = document.querySelector("#List3"),
         recherche = document.querySelector("#search-bar"),
         rechercheBouton = document.querySelector("#search-button"),
-        idNomSalle = document.querySelector("#nomSalle");
+        idNomSalle,
+        libreContainer = document.querySelector(".sub-content-right");
 
     // Réinitialiser les paramètres et mémoire de catégorie
     var derBatiment = batimentSelect.value,
         derEtage = etageSelect.value,
         derSalle = salleSelect.value,
         derRecherche = '';
+    libreContainer.innerHTML = "<h2>Salles libres</h2>";
 
     // Contient les données de l'étage puis
     // groupeFinal contient les données après
@@ -187,13 +266,52 @@ function initialize() {
         groupeInt,
         groupeFinal;
 
-    // Afficher toutes les salles au début puis
-    // updateDisplay
+    // Afficher toutes les salles au début
+    // notamment les salles libres
     groupeFinal = salles;
+    afficheLibre();
 
     // Réinitialiser le filtrage
     groupeSelect = [];
     groupeFinal = [];
+
+    function afficheLibre() {
+        // Analyser le niveau sonore de chaque
+        // salle et voir s'il est en dessous de
+        // 20, si oui alors la salle est libre
+        // donc on crée un item à droite
+
+        for (var sa = 0; sa < salles.length; sa++) {
+            var derNiveau = salles[sa].niveau[salles[sa].niveau.length - 1];
+            if (derNiveau < 20) {
+                var newLibre = document.createElement("div"),
+                    firstSpan = document.createElement("span"),
+                    secondSpan = document.createElement("span"),
+                    salleLibre = document.createElement("h3"),
+                    snode = document.createTextNode(String(salles[sa].salle)),
+                    title = document.createElement("p"),
+                    tnode = document.createTextNode("Dernière activité : "),
+                    derActivite = document.createElement("p");
+                newLibre.className = "libre";
+                title.appendChild(tnode);
+                salleLibre.appendChild(snode);
+                salles[sa].niveau.forEach(function(valeur, index) {
+                    if (valeur > 30) {
+                        var activiteNode = moment().subtract((10 - index)*15, "minutes").fromNow();
+                        derActivite.textContent = activiteNode;
+                    }
+                });
+                const inferieurTrente = (valeur) => valeur < 30;
+                if (salles[sa].niveau.every(inferieurTrente)) {
+                    derActivite.textContent = "Il y a plus de 3h";
+                };
+                firstSpan.appendChild(salleLibre);
+                secondSpan.innerHTML += title.outerHTML + derActivite.outerHTML;
+                newLibre.innerHTML += firstSpan.outerHTML + secondSpan.outerHTML;
+                libreContainer.appendChild(newLibre);
+            }
+        }
+    }
 
     // Quand le select change ou quand
     // une recherche est lancée, invoquer
@@ -209,6 +327,7 @@ function initialize() {
         groupeSelect = [];
         groupeInt = [];
         groupeFinal = [];
+        document.querySelector(".sub-content-items").innerHTML = "";
 
         if (batimentSelect.value === derBatiment && etageSelect.value === derEtage && salleSelect.value === derSalle && recherche.value.trim() === derRecherche) {
             return;
@@ -253,14 +372,14 @@ function initialize() {
                 groupeSelect = salles;
                 rechercheSalle();
             } else {
-                idNomSalle.textContent = 'Bâtiment ' + batimentSelect.value;
+                idNomSalle = 'Bâtiment ' + batimentSelect.value;
                 for (var sa = 0; sa < salles.length; sa++) {
                     if (salles[sa].batiment === batimentSelect.value) {
                         groupeSelect.push(salles[sa]);
                     }
                 }
                 if (etageSelect.value !== "---") {
-                    idNomSalle.textContent = 'Étage ' + etageSelect.value;
+                    idNomSalle = 'Étage ' + etageSelect.value;
                     for (sa = 0; sa < groupeSelect.length; sa++) {
                         if (groupeSelect[sa].etage === etageSelect.value) {
                             groupeInt.push(groupeSelect[sa]);
@@ -269,7 +388,7 @@ function initialize() {
                     groupeSelect = groupeInt;
                 }
                 if (salleSelect.value !== "---") {
-                    idNomSalle.textContent = 'Salle ' + salleSelect.value;
+                    idNomSalle = 'Salle ' + salleSelect.value;
                     for (sa = 0; sa < groupeSelect.length; sa++) {
                         if (groupeSelect[sa].salle === salleSelect.value) {
                             groupeSelect = [groupeSelect[sa]];
@@ -292,7 +411,7 @@ function initialize() {
             // est contenu dans un des noms de salle, (sinon
             // indexOf retourne -1) et l'ajouter dans le groupeFinal
             for (var sa = 0; sa < groupeSelect.length; sa++) {
-                if (groupeSelect[sa].salle.indexOf(recherche.value.trim()) !== -1) {
+                if (groupeSelect[sa].salle.indexOf(recherche.value.trim().toUpperCase()) !== -1) {
                     groupeFinal.push(groupeSelect[sa]);
                     batimentSelect.value = groupeSelect[sa].batiment;
                     var nCat = categories[batimentSelect.value];
@@ -313,7 +432,7 @@ function initialize() {
                         salleSelect.appendChild(nOption);
                     }
                     salleSelect.value = groupeSelect[sa].salle;
-                    idNomSalle.textContent = 'Salle ' + salleSelect.value;
+                    idNomSalle= 'Salle ' + salleSelect.value;
                 }
             }
             updateDisplay();
@@ -322,7 +441,7 @@ function initialize() {
 
     function updateDisplay() {
         if (groupeFinal.length === 0) {
-            idNomSalle.textContent = 'Aucune salle correspondante';
+            idNomSalle = 'Aucune salle correspondante';
             myChart.config.data.datasets = {data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]};
             myChart.update();
             updateItem(myChart.config.data.datasets.data[10]);
@@ -362,31 +481,52 @@ function initialize() {
             pointHoverRadius: 8,
             pointBorderWidth: 3,
             pointHoverBorderWidth: 3,
-            pointBackgroundColor: colorString,
-            pointBorderColor: "#fff",
-            pointHoverBorderColor: "#293B5A",
+            pointBackgroundColor: "#293B5A",
+            pointBorderColor: colorString,
+            pointHoverBackgroundColor: colorString,
             data: arraySalle.niveau
         };
 
         // On ajoute la dataset au graph
         myChart.config.data.datasets.push(newDataset);
+        myChart.config.options.title.text = idNomSalle;
 
         myChart.update();
 
-        updateItem(arraySalle.niveau[arraySalle.niveau.length - 1]);
+        updateItem(arraySalle);
     }
 
     // Item Niveau Sonore, Présents et Dernière Activité
 
-    function updateItem(itemNiveau) {
+    function updateItem(items) {
 
-        document.querySelector("#itemNiveau").textContent = itemNiveau;
-        for (var i = 0; i <= 120; i += 5) {
-            if (itemNiveau >= i) {
-                var itemPresents = (i - 30) / 2 >= 0 ? (i - 30) / 2 : 0;
-                document.querySelector("#itemPresents").textContent = Math.round(itemPresents);
-            }
+        var itemContainer = document.querySelector(".sub-content-items"),
+            newItem = document.createElement("div"),
+            firstSpan = document.createElement("span"),
+            secondSpan = document.createElement("span"),
+            firstIcon = document.createElement("i"),
+            title = document.createElement("p"),
+            tnode = document.createTextNode("Décibels en \n" + String(items.salle)),
+            secondIcon = document.createElement("i"),
+            value = document.createElement("h3"),
+            vnode = document.createTextNode(items.niveau[items.niveau.length - 1]);
+        newItem.className = "item";
+        firstIcon.className = "fas fa-bell";
+        title.appendChild(tnode);
+        if (items.niveau[items.niveau.length - 1] < items.niveau[items.niveau.length - 2]) {
+            secondIcon.className = "fas fa-chevron-circle-down";
+            newItem.style.backgroundColor = "#49D8B6";
+            firstIcon.style.color = "#49D8B6";
+        } else {
+            secondIcon.className = "fas fa-chevron-circle-up";
+            newItem.style.backgroundColor = "#FF5D87";
+            firstIcon.style.color = "#FF5D87";
         }
+        value.appendChild(vnode);
+        firstSpan.innerHTML += title.outerHTML + firstIcon.outerHTML;
+        secondSpan.innerHTML += value.outerHTML + secondIcon.outerHTML;
+        newItem.innerHTML += firstSpan.outerHTML + secondSpan.outerHTML;
+        itemContainer.appendChild(newItem);
     }
 
 }

@@ -3,101 +3,212 @@
 
 <head>
 
-  <!--  Meta  -->
-  <meta charset="UTF-8" />
-  <title>NDCBel</title>
+    <!--  Meta  -->
+    <meta charset="UTF-8"/>
+    <title>NDCBel</title>
 
-  <!--  Styles  -->
-  <link rel="stylesheet" href="styles/index.css">
-  <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
+    <!--  Styles  -->
+    <link rel="stylesheet" href="styles/index.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Rubik&display=swap" rel="stylesheet">
 
 </head>
 
 <body>
 
-  <div class="section activite">
-    <div class="barre-haute">
-      <h1>Activité</h1>
-      <form method="get" class="search-container" action="javascript:void(0);">
-        <input type="text" id="search-bar" placeholder="Rechercher...">
-        <button id="search-button"><i class="fas fa-search"></i></button>
-      </form>
-    </div>
-    <div class="sub-content">
-      <div class="sub-content-left">
-        <div class="sub-top">
-          <div id="infoSalle">
-            <h2 id="nomSalle">Choisissez un bâtiment</h2>
-            <p id="intervalDate"></p>
-          </div>
-          <div>
-            <form name="tripleplay" action="javascript:void(0);">
-              <div class="select">
-                <label>Bâtiment :</label>
-                <select name="List1">
-                  <option selected>---</option>
-                  <option value="ND des Champs">ND des Champs</option>
-                  <option value="ND de Lorette">ND de Lorette</option>
-                </select>
-              </div>
-              <div class="select">
-                <label>Étage :</label>
-                <select name="List2">
-                  <option selected>---</option>
-                </select>
-              </div>
-              <div class="select">
-                <label>Salle :</label>
-                <select name="List3">
-                  <option selected >---</option>
-                </select>
-              </div>
-            </form>
-          </div>
-          <!-- Fin séparation du sub-top pour flex -->
-        </div>
-        <!-- Fin sub-top -->
-        <div class="sub-middle">
-          <canvas id="myChart" width="500" height="40vh"></canvas>
-        </div>
-        <!-- Fin sub-middle -->
-      </div>
-      <!-- Fin subcontent-left -->
-      <div class="sub-content-right">
-        <div class="item">
-          <i class="fas fa-users"></i>
-          <p>Présents</p>
-          <i class="fas fa-chevron-circle-up"></i>
-          <h3 id="itemPresents">---</h3>
-        </div>
-        <div class="item">
-          <i class="fas fa-bell"></i>
-          <p>Décibels</p>
-          <!-- Remplacer en fonction de la valeur d'avant, augmentation ou diminution -->
-          <i class="fas fa-chevron-circle-down"></i>
-          <!-- Remplacer en fonction de la valeur actuelle -->
-          <h3 id="itemNiveau">---</h3>
-        </div>
-        <!--
-        <div class="item">
-          <i class="fas fa-history"></i>
-          <p>Dernière Activité</p>
-          <i class="fas fa-chevron-circle-up"></i>
-          <h3 id="itemDerniere"></h3>
-        </div>
-        -->
-      </div>
-      <!-- Fin subcontent-right -->
-    </div>
-  </div>
+<div id="content">
 
-  <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://kit.fontawesome.com/4066a3c5f6.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/fr.js"></script>
-  <script src="scripts/index.js"></script>
+    <div id="sidebar">
+        <div id="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="80px" height="80px" viewBox="0 0 1040.9 344.17">
+                <defs>
+                    <style>.a{font-size:271.21px;fill:#293B5A;font-family:"Montserrat", sans-serif;font-weight:500;}.b{letter-spacing:-0.02em;}.c{letter-spacing:0em;}.d{fill:#55e4d4;}</style>
+                </defs>
+                <title>logo</title>
+                <text class="a" transform="translate(0 230.53)">N<tspan class="b" x="214.25" y="0">D</tspan><tspan class="c" x="417.39" y="0">CBel</tspan></text>
+                <circle class="d" cx="526.45" cy="135" r="33"/>
+            </svg>
+        </div>
+        <div class="pop">
+            <div class="pop-wrap">
+                <!-- Icône de bâtiment -->
+                <div class="svg-wrap" onclick="sidebarAnimate(this.parentElement.parentElement)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px"
+                         xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1"
+                         x="0px" y="0px" viewBox="0 0 503.607 503.607"
+                         style="enable-background:new 0 0 503.607 503.607;"
+                         xml:space="preserve">
+                <g transform="translate(1 1)">
+                    <g>
+                        <g>
+                            <path d="M494.213,452.246h-25.18V7.393c0-5.036-3.357-8.393-8.393-8.393H40.967c-5.036,0-8.393,3.357-8.393,8.393v444.852H7.393     c-5.036,0-8.393,3.357-8.393,8.393v33.574c0,5.036,3.357,8.393,8.393,8.393h486.82c5.036,0,8.393-3.357,8.393-8.393v-33.574     C502.607,455.603,499.249,452.246,494.213,452.246z M49.361,15.787h402.885v436.459H326.344v-92.328     c0-5.036-3.357-8.393-8.393-8.393h-67.148h-67.148c-5.036,0-8.393,3.357-8.393,8.393v92.328H49.361V15.787z M192.049,452.246     v-83.934h50.361v83.934H192.049z M259.197,368.311h50.361v83.934h-50.361V368.311z M485.82,485.82H15.787v-16.787h25.18h142.689     h67.148h67.148h142.689h25.18V485.82z"/>
+                            <path d="M158.475,40.967H91.328c-5.036,0-8.393,3.357-8.393,8.393v50.361c0,5.036,3.357,8.393,8.393,8.393h67.148     c5.036,0,8.393-3.357,8.393-8.393V49.361C166.869,44.325,163.511,40.967,158.475,40.967z M150.082,91.328H99.721V57.754h50.361     V91.328z"/>
+                            <path d="M158.475,133.295H91.328c-5.036,0-8.393,3.357-8.393,8.393v50.361c0,5.036,3.357,8.393,8.393,8.393h67.148     c5.036,0,8.393-3.357,8.393-8.393v-50.361C166.869,136.652,163.511,133.295,158.475,133.295z M150.082,183.656H99.721v-33.574     h50.361V183.656z"/>
+                            <path d="M217.229,200.443h67.148c5.036,0,8.393-3.357,8.393-8.393v-50.361c0-5.036-3.357-8.393-8.393-8.393h-67.148     c-5.036,0-8.393,3.357-8.393,8.393v50.361C208.836,197.085,212.193,200.443,217.229,200.443z M225.623,150.082h50.361v33.574     h-50.361V150.082z"/>
+                            <path d="M343.131,200.443h67.148c5.036,0,8.393-3.357,8.393-8.393v-50.361c0-5.036-3.357-8.393-8.393-8.393h-67.148     c-5.036,0-8.393,3.357-8.393,8.393v50.361C334.738,197.085,338.095,200.443,343.131,200.443z M351.525,150.082h50.361v33.574     h-50.361V150.082z"/>
+                            <path d="M217.229,292.771h67.148c5.036,0,8.393-3.357,8.393-8.393v-50.361c0-5.036-3.357-8.393-8.393-8.393h-67.148     c-5.036,0-8.393,3.357-8.393,8.393v50.361C208.836,289.413,212.193,292.771,217.229,292.771z M225.623,242.41h50.361v33.574     h-50.361V242.41z"/>
+                            <path d="M343.131,292.771h67.148c5.036,0,8.393-3.357,8.393-8.393v-50.361c0-5.036-3.357-8.393-8.393-8.393h-67.148     c-5.036,0-8.393,3.357-8.393,8.393v50.361C334.738,289.413,338.095,292.771,343.131,292.771z M351.525,242.41h50.361v33.574     h-50.361V242.41z"/>
+                            <path d="M158.475,225.623H91.328c-5.036,0-8.393,3.357-8.393,8.393v50.361c0,5.036,3.357,8.393,8.393,8.393h67.148     c5.036,0,8.393-3.357,8.393-8.393v-50.361C166.869,228.98,163.511,225.623,158.475,225.623z M150.082,275.984H99.721V242.41     h50.361V275.984z"/>
+                            <path d="M217.229,108.115h67.148c5.036,0,8.393-3.357,8.393-8.393V49.361c0-5.036-3.357-8.393-8.393-8.393h-67.148     c-5.036,0-8.393,3.357-8.393,8.393v50.361C208.836,104.757,212.193,108.115,217.229,108.115z M225.623,57.754h50.361v33.574     h-50.361V57.754z"/>
+                            <path d="M343.131,108.115h67.148c5.036,0,8.393-3.357,8.393-8.393V49.361c0-5.036-3.357-8.393-8.393-8.393h-67.148     c-5.036,0-8.393,3.357-8.393,8.393v50.361C334.738,104.757,338.095,108.115,343.131,108.115z M351.525,57.754h50.361v33.574     h-50.361V57.754z"/>
+                            <path d="M200.443,334.738h100.721c5.036,0,8.393-3.357,8.393-8.393c0-5.036-3.357-8.393-8.393-8.393H200.443     c-5.036,0-8.393,3.357-8.393,8.393C192.049,331.38,195.407,334.738,200.443,334.738z"/>
+                        </g>
+                    </g>
+                </g>
+                        <g>
+                </g>
+                        <g>
+                </g>
+                        <g>
+                </g>
+                        <g>
+                </g>
+                        <g>
+                </g>
+                        <g>
+                </g>
+                        <g>
+                </g>
+                        <g>
+                </g>
+                        <g>
+                </g>
+                        <g>
+                </g>
+                        <g>
+                </g>
+                        <g>
+                </g>
+                        <g>
+                </g>
+                        <g>
+                </g>
+                        <g>
+                </g>
+        </svg>
+                </div>
+                <div class="select">
+                    <label for="List1">Bâtiment :</label>
+                    <select id="List1" name="List1">
+                        <option selected>---</option>
+                        <option value="ND des Champs">ND des Champs</option>
+                        <option value="ND de Lorette">ND de Lorette</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="pop">
+            <div class="pop-wrap">
+                <!-- Icône d'étage -->
+                <div class="svg-wrap" onclick="sidebarAnimate(this.parentElement.parentElement)">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-44 0 511 511.99925" width="30px" height="30px">
+                    <path d="m416.820312 208.417969h-120.242187c-12.976563 0-23.53125 10.558593-23.53125 23.535156v72.660156h-25.082031v-40.597656c0-12.976563-10.554688-23.53125-23.53125-23.53125h-32.484375c-2.566407 0-4.976563-1.140625-6.601563-3.128906l-16.730468-20.445313 134.238281-205.304687c2.269531-3.46875 1.296875-8.113281-2.171875-10.382813-3.464844-2.265625-8.113282-1.2929685-10.382813 2.171875l-81.882812 125.234375-52.148438-44.320312 34.863281-73.597656c1.769532-3.742188.175782-8.214844-3.570312-9.988282-3.738281-1.769531-8.214844-.175781-9.988281 3.570313l-71.585938 151.128906-51.875 51.875c-9.175781 9.175781-9.175781 24.101563 0 33.277344l62.753907 62.753906c6.449218 6.453125 14.207031 11.113281 22.675781 13.757813-1.765625 3.296874-2.769531 7.0625-2.769531 11.058593v72.664063h-112.742188c-12.976562 0-23.53125 10.554687-23.53125 23.53125v80.160156c0 4.140625 3.359375 7.5 7.5 7.5s7.5-3.359375 7.5-7.5v-80.160156c0-4.707032 3.828125-8.535156 8.53125-8.535156h120.242188c4.140624 0 7.5-3.355469 7.5-7.496094v-80.164063c0-4.703125 3.828124-8.53125 8.53125-8.53125h120.242187c4.140625 0 7.5-3.359375 7.5-7.5v-80.160156c0-4.707031 3.828125-8.53125 8.53125-8.53125h120.242187c4.140626 0 7.5-3.359375 7.5-7.5 0-4.144531-3.359374-7.503906-7.5-7.503906zm-295.804687-49.6875 14.214844-30.003907 46.863281 40.167969-23.4375 35.839844zm79.128906-17.445313-9.773437 14.945313-48.484375-41.558594 7.734375-16.328125zm-43.964843 163.328125c-10.84375 0-21.039063-4.222656-28.707032-11.890625l-62.753906-62.753906c-3.328125-3.328125-3.328125-8.738281 0-12.066406l7.410156-7.40625 70.160156 70.160156c4.445313 4.445312 10.355469 6.894531 16.640626 6.894531h33.4375c4.144531 0 7.5-3.359375 7.5-7.5 0-4.144531-3.355469-7.5-7.5-7.5h-33.4375c-2.277344 0-4.421876-.890625-6.035157-2.5l-70.160156-70.164062 28.917969-28.914063 62.085937 75.882813c4.484375 5.484375 11.125 8.628906 18.210938 8.628906h32.484375c4.703125 0 8.53125 3.828125 8.53125 8.53125v8.535156h-8.535156c-4.144532 0-7.5 3.355469-7.5 7.5 0 4.140625 3.355468 7.5 7.5 7.5h8.535156v17.0625zm0 0"/>
+                </svg>
+                </div>
+                <div class="select">
+                    <label for="List2">Étage :</label>
+                    <select id="List2" name="List2">
+                        <option selected>---</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="pop">
+            <div class="pop-wrap">
+                <!-- Icône de salle -->
+                <div class="svg-wrap" onclick="sidebarAnimate(this.parentElement.parentElement)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px"
+                     xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                     viewBox="0 0 470 470" style="enable-background:new 0 0 470 470;" xml:space="preserve">
+                  <g>
+                      <path d="M151.25,392c-4.143,0-7.5,3.358-7.5,7.5V422c0,4.142,3.357,7.5,7.5,7.5s7.5-3.358,7.5-7.5v-22.5   C158.75,395.358,155.393,392,151.25,392z"/>
+                      <path d="M318.75,392c-4.143,0-7.5,3.358-7.5,7.5v30c0,4.142,3.357,7.5,7.5,7.5s7.5-3.358,7.5-7.5v-30   C326.25,395.358,322.893,392,318.75,392z"/>
+                      <path d="M27.5,142h103.75c4.143,0,7.5-3.358,7.5-7.5s-3.357-7.5-7.5-7.5H27.5c-4.143,0-7.5,3.358-7.5,7.5S23.357,142,27.5,142z"/>
+                      <path d="M27.5,112h103.75c4.143,0,7.5-3.358,7.5-7.5s-3.357-7.5-7.5-7.5H27.5c-4.143,0-7.5,3.358-7.5,7.5S23.357,112,27.5,112z"/>
+                      <path d="M67.5,347h335c4.143,0,7.5-3.358,7.5-7.5v-115c0-4.142-3.357-7.5-7.5-7.5h-51.875c-4.143,0-7.5,3.358-7.5,7.5   s3.357,7.5,7.5,7.5H395v100H75V232h245.625c4.143,0,7.5-3.358,7.5-7.5s-3.357-7.5-7.5-7.5H67.5c-4.143,0-7.5,3.358-7.5,7.5v115   C60,343.642,63.357,347,67.5,347z"/>
+                      <path d="M163.067,141.976c4.125,0.329,7.745-2.744,8.078-6.873l5.168-64.097C177.32,58.535,188.739,48,201.25,48h67.5   c12.511,0,23.93,10.535,24.937,23.006l5.168,64.097c0.316,3.924,3.599,6.898,7.468,6.898c0.201,0,0.405-0.008,0.61-0.025   c4.129-0.333,7.206-3.95,6.873-8.079L308.638,69.8C307,49.508,289.106,33,268.75,33h-67.5c-20.356,0-38.25,16.508-39.888,36.8   l-5.168,64.097C155.861,138.026,158.938,141.643,163.067,141.976z"/>
+                      <path d="M462.5,157H410v-52.5c0-4.142-3.357-7.5-7.5-7.5H390V74.5c0-4.142-3.357-7.5-7.5-7.5s-7.5,3.358-7.5,7.5V97h-12.5   c-4.143,0-7.5,3.358-7.5,7.5V157H7.5c-4.143,0-7.5,3.358-7.5,7.5v30c0,4.142,3.357,7.5,7.5,7.5H30v227.5c0,4.142,3.357,7.5,7.5,7.5   s7.5-3.358,7.5-7.5V377h380v52.5c0,4.142,3.357,7.5,7.5,7.5s7.5-3.358,7.5-7.5V202h22.5c4.143,0,7.5-3.358,7.5-7.5v-30   C470,160.358,466.643,157,462.5,157z M370,112h25v45h-25V112z M425,362H45V202h380V362z M455,187H15v-15h440V187z"/>
+                  </g>
+                    <g>
+                  </g>
+                    <g>
+                  </g>
+                    <g>
+                  </g>
+                    <g>
+                  </g>
+                    <g>
+                  </g>
+                    <g>
+                  </g>
+                    <g>
+                  </g>
+                    <g>
+                  </g>
+                    <g>
+                  </g>
+                    <g>
+                  </g>
+                    <g>
+                  </g>
+                    <g>
+                  </g>
+                    <g>
+                  </g>
+                    <g>
+                  </g>
+                    <g>
+                  </g>
+              </svg>
+                </div>
+                <div class="select">
+                    <label for="List3">Salle :</label>
+                    <select id="List3" name="List3">
+                        <option selected>---</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="section">
+        <div class="barre-haute">
+            <h1 id="intervalDate"></h1>
+            <form method="get" class="search-container" action="javascript:void(0);">
+                <input type="text" id="search-bar" placeholder="Rechercher...">
+                <button id="search-button"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+        <div class="sub-content">
+            <div class="sub-content-left">
+                <div class="sub-chart">
+                    <canvas id="myChart" width="500" height="40vh">
+                        <title>Choisissez une salle</title>
+                    </canvas>
+                </div>
+                <!-- Fin sub-chart -->
+                <div class="sub-content-items">
+                </div>
+                <!-- Fin subcontent-items -->
+            </div>
+            <!-- Fin subcontent-left -->
+            <div class="sub-content-right">
+                <h2>Salles libres</h2>
+            </div>
+            <!-- Fin subcontent-right -->
+        </div>
+        <!-- Fin subcontent -->
+    </div>
+
+</div>
+<!-- Fin content -->
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://kit.fontawesome.com/4066a3c5f6.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/fr.js"></script>
+<script src="scripts/index.js"></script>
 
 </body>
 
