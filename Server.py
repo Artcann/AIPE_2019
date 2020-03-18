@@ -2,9 +2,9 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from os import curdir, sep
 from model.Carte import *
 from model.Salle import *
-import mysql.connector
 import json
 
+"""
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -82,7 +82,7 @@ def updateJSON():
             json_data.append(dict)
     json_file = json.dumps(json_data)
     return json_file
-
+"""
 
 with open('salles.json') as json_data:
     json_inter = json.load(json_data)
