@@ -9,7 +9,8 @@ mydb = mysql.connector.connect(
     host="localhost",
     user="root",
     passwd="arca220929!",
-    database="AIPE"
+    database="dbAipe",
+    auth_plugin='mysql_native_password'
 )
 
 mycursor = mydb.cursor()
@@ -83,9 +84,12 @@ def updateJSON():
     return json_file
 
 
-json_file = updateJSON()
+with open('salles.json') as json_data:
+    json_inter = json.load(json_data)
+    json_file = json.dumps(json_inter)
+print(json_file)
 
-hostname = "172.16.237.233"
+hostname = "127.0.0.1"
 PORT = 9889
 server_adress = (hostname, PORT)
 
@@ -110,7 +114,9 @@ class MyHandler(BaseHTTPRequestHandler):
                 sendReply = True
             if self.path.endswith(".json"):
                 mimetype = "application/json"
-                json_file = updateJSON()
+                with open('salles.json') as json_data:
+                    json_inter = json.load(json_data)
+                    json_file = json.dumps(json_inter)
                 sendJson = True
             if self.path.endswith(".map"):
                 mimetype = "application/json"
