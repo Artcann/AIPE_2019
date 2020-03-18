@@ -1,15 +1,14 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from os import curdir, sep
+from os import curdir, sep, environ
 import json
 
 with open('salles.json') as json_data:
     json_inter = json.load(json_data)
     json_file = json.dumps(json_inter)
-print(json_file)
 
 hostname = "0.0.0.0"
 PORT = 5000
-server_adress = (hostname, PORT)
+server_adress = ("", int(environ.get('PORT', '8000')))
 
 
 class MyHandler(BaseHTTPRequestHandler):
