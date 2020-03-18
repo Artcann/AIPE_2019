@@ -1,7 +1,5 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from os import curdir, sep
-from model.Carte import *
-from model.Salle import *
 import json
 
 with open('salles.json') as json_data:
