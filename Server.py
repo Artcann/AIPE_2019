@@ -9,8 +9,8 @@ with open('salles.json') as json_data:
     json_file = json.dumps(json_inter)
 print(json_file)
 
-hostname = "127.0.0.1"
-PORT = 9889
+hostname = "0.0.0.0"
+PORT = 5000
 server_adress = (hostname, PORT)
 
 
