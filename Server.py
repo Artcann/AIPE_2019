@@ -14,6 +14,7 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
+
 def updateJSON():
 
 
@@ -85,7 +86,7 @@ def updateJSON():
 
 json_file = updateJSON()
 
-hostname = "172.16.237.233"
+hostname = "localhost"
 PORT = 9889
 server_adress = (hostname, PORT)
 
